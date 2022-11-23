@@ -9,7 +9,7 @@ setuptools.setup(
     author="Richard Mwewa",
     author_email = "rly0nheart@duck.com",
     packages=["searchcode"],
-    description="Official command line client for Searchcode.com",
+    description="Command line client for Searchcode.com",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rly0nheart/searchcode-cli",

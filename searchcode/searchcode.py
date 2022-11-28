@@ -17,7 +17,7 @@ def code_search(args, api_endpoint):
     if args.raw:
         pprint(response['results'])
     else:
-        for count, item in enumerate(response['results']):
+        for count, item in enumerate(response['results'], start=1):
             code_data = {"ID": item['id'],
                          "Repo": item['repo'],
                          "Lines": item['linescount'],

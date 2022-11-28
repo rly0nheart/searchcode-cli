@@ -64,16 +64,7 @@ def check_and_install_updates():
     if response['tag_name'] == current_version_tag:
         pass
     else:
-        while True:
-            update_prompt = input(f"[UPDATE] A new release of searchcode-cli is available ({response['tag_name']}). Would you like to install the updates? (yes/no) ").lower()
-            if update_prompt == "yes":
-                subprocess.run(["pip3", "install", "--upgrade", "searchcode-cli"], shell=False)
-                print("restart searchcode-cli.")
-                break
-            elif update_prompt == "no":
-                break
-            else:
-                print(f"[WARNING] Your input '{update_prompt}' is invalid (expected 'yes' or 'no')")
+        print(f"[UPDATE] A new release of searchcode-cli is available ({response['tag_name']}). Run 'pip3 install --upgrade searchcode-cli' to install the updates.")
             
             
 def usage():

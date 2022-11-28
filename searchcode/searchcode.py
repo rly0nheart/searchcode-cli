@@ -34,7 +34,7 @@ def code_search(args, api_endpoint):
             print(f"-" * 100)
 
 
-# Getting related code results; given a searchcodecode unique code ID        
+# Getting related code results; given a searchcode unique code ID
 def related_results(args, api_endpoint):
     response = requests.get(api_endpoint).json()
     if args.raw:
@@ -64,12 +64,16 @@ def check_and_install_updates():
     if response['tag_name'] == current_version_tag:
         pass
     else:
-        update_prompt = input(f"[UPDATE] A new release of searchcode-cli is available ({response['tag_name']}). Would you like to install the updates? (Y/n)")
-        if update_prompt.lower() == "y":
-            subprocess.run(["pip3", "install", "--upgrade", "searchcode-cli"], shell=False)
-            print("restart searchcode-cli.")
-        else:
-            pass
+        while True:
+            update_prompt = input(f"[UPDATE] A new release of searchcode-cli is available ({response['tag_name']}). Would you like to install the updates? (yes/no) ").lower()
+            if update_prompt == "yes":
+                subprocess.run(["pip3", "install", "--upgrade", "searchcode-cli"], shell=False)
+                print("restart searchcode-cli.")
+                break
+            elif update_prompt == "no":
+                break
+            else:
+                print(f"[WARNING] Your input '{update_prompt}' is invalid (expected 'yes' or 'no')")
             
             
 def usage():
@@ -83,6 +87,13 @@ def usage():
 
         # related_results
         searchcode related_results --code-id <code_id>
+        
+    Docker container usage:
+        # code_search 
+        docker run -it rly0nheart/searchcode-cli code_search --query <query>
+        
+        # code_search 
+        docker run -it rly0nheart/searchcode-cli relate_results --code-id <code_id>
         """
 
 
@@ -98,8 +109,8 @@ def create_parser():
     parser.add_argument("-ci", "--code-id", help="code id (can be found as ID/id in a code_search result).", dest="code_id")
     parser.add_argument("-p", "--page", help="page number (default: %(default)s)", default=1)
     parser.add_argument("-r", "--raw", help="return results in raw json format", action="store_true")
-    parser.add_argument("-sf", "--source-filter", help=argparse.SUPPRESS) # Filters feature coming soon..
-    parser.add_argument("--output",help=argparse.SUPPRESS) # Output feature coming soon..
+    parser.add_argument("-sf", "--source-filter", help=argparse.SUPPRESS)  # Filters feature coming soon..
+    parser.add_argument("--output",help=argparse.SUPPRESS)  # Output feature coming soon..
     parser.add_argument("-d", "--debug", help="enable debug mode (shows network logs)", action="store_true")
     return parser
 
@@ -110,7 +121,7 @@ def searchcode():
     args = arg_parser.parse_args()
     check_and_install_updates()
     if args.debug:
-        logging.basicConfig(format="%(asctime)s %(message)s", level=logging.DEBUG)
+        logging.basicConfig(format="[%(levelname)s] %(message)s", level=logging.DEBUG)
     try:
         if args.mode == "code_search":
             code_search(args, api_endpoint=f"{api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100")
@@ -119,6 +130,6 @@ def searchcode():
         elif args.mode == "related_results":
             related_results(args, api_endpoint=f"{api_endpoint}/related_results/{args.code_id}")
     except KeyboardInterrupt:
-        raise Exception("Process interrupted with Ctrl+C")
+        print("[CTRLC] Process interrupted with Ctrl+C.")
     except Exception as e:
-        raise Exception(f"An error occurred: {e}")
+        print(f"[ERROR] An error occurred: {e}")

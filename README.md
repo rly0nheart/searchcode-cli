@@ -57,3 +57,10 @@ docker run -it rly0nheart/searchcode-cli
 
 # About
 Read more about searchcode [here](https://searchcode.com/about/)
+
+# Donations
+If you would like to donate, you could Buy Me A Coffee using the button below
+
+<a href="https://www.buymeacoffee.com/189381184" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+Your support will be much appreciated!😊

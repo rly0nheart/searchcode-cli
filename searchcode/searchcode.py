@@ -54,7 +54,7 @@ def related_results(args, api_endpoint):
                 print(f"├─ {code_key}: {code_value}")
 
 
-def check_and_install_updates():
+def check_updates():
     current_version_tag = "1.1.0"
     """
     Checks if the release tag matches the current tag in the program
@@ -110,7 +110,7 @@ def searchcode():
     api_endpoint = "https://searchcode.com/api"
     arg_parser = create_parser()
     args = arg_parser.parse_args()
-    check_and_install_updates()
+    check_updates()
     if args.debug:
         logging.basicConfig(format="[%(levelname)s] %(message)s", level=logging.DEBUG)
     try:

@@ -35,7 +35,7 @@ Once the build package is installed, you can now run the following command to st
 ```
 python -m build
 ```
-**4. Installing .whl
+**4. Installing .whl**
 When building is complete, you will now run the following command to install the built .whl
 ```
 pip install dist/*.whl
@@ -52,7 +52,7 @@ searchcode --help
 ```
 ## Docker Container
 ```
-docker run -it rly0nheart/searchcode-cli
+docker run -it rly0nheart/searchcode-cli --help
 ```
 
 # About

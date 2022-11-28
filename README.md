@@ -57,7 +57,7 @@ searchcode --help
 docker run -it rly0nheart/searchcode-cli --help
 ```
 
-# About
+# About SearchCode
 Read more about searchcode [here](https://searchcode.com/about/)
 
 # Donations

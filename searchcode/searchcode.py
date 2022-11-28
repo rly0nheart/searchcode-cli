@@ -55,7 +55,7 @@ def related_results(args, api_endpoint):
 
 
 def check_and_install_updates():
-    current_version_tag = "1.0.0"
+    current_version_tag = "1.1.0"
     """
     Checks if the release tag matches the current tag in the program
     If there's a match, ignore

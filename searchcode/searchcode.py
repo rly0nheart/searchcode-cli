@@ -2,20 +2,22 @@ import logging
 import argparse
 import requests
 import subprocess
-from pprint import pprint
+from rich.tree import Tree
+from rich import print as xprint
+from rich.logging import RichHandler
 
 
 # Getting code results; given a searchcode unique code ID
 def code_results(args, api_endpoint):
     response = requests.get(api_endpoint).json()
-    pprint(response['code'])
+    xprint(response['code'])
 
 
 # Querying the searchcode index
 def code_search(args, api_endpoint):
     response = requests.get(api_endpoint).json()
     if args.raw:
-        pprint(response['results'])
+        xprint(response['results'])
     else:
         for count, item in enumerate(response['results'], start=1):
             code_data = {"ID": item['id'],
@@ -25,20 +27,21 @@ def code_search(args, api_endpoint):
                          "Location": item['location'],
                          "Language(s)": item['language'],
                          "Search term": response['searchterm']}
-            print(f"\n\nResult {count} of {response['total']}\n{item['name'].upper()}")
+            result_tree = Tree(f"\n\nResult {count} of {response['total']}\n{item['name'].upper()}")
             for data_key, data_value in code_data.items():
-                print(f"├─ {data_key}: {data_value}")
-                
+                result_tree.add(f"{data_key}: {data_value}")
+            
+            xprint(result_tree)
             for line, code in item['lines'].items():
-                print(f"{line}: {code}")
-            print(f"-" * 100)
+                xprint(f"{line}: {code}")
+            xprint(f"-" * 100)
 
 
 # Getting related code results; given a searchcode unique code ID
 def related_results(args, api_endpoint):
     response = requests.get(api_endpoint).json()
     if args.raw:
-        pprint(response)
+        xprint(response)
     else:
         for item in response:
             code_data  = {"ID": item['id'],
@@ -49,13 +52,14 @@ def related_results(args, api_endpoint):
                           "Location": item['location'],
                           "Language(s)": item['language'],
                           "MD5": item['md5hash']}
-            print(f"\n{item['reponame'].upper()}")
+            result_tree = Tree(f"\n{item['reponame'].upper()}")
             for code_key, code_value in code_data.items():
-                print(f"├─ {code_key}: {code_value}")
+                result_tree.add(f"{code_key}: {code_value}")
+            xprint(result_tree)
 
 
 def check_updates():
-    current_version_tag = "1.1.0"
+    current_version_tag = "1.2.0"
     """
     Checks if the release tag matches the current tag in the program
     If there's a match, ignore
@@ -64,7 +68,7 @@ def check_updates():
     if response['tag_name'] == current_version_tag:
         pass
     else:
-        print(f"[UPDATE] A new release of searchcode-cli is available ({response['tag_name']}). Run 'pip3 install --upgrade searchcode-cli' to install the updates.")
+        xprint(f"[[green]UPDATE[/]] A new release of searchcode-cli is available ({response['tag_name']}). Run 'pip3 install --upgrade searchcode-cli' to install the updates.")
             
             
 def usage():
@@ -89,7 +93,7 @@ def usage():
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description=f"searchcode-cli: official command line client for searchcode.com", epilog="Search 75 billion lines of code from 40 million projects. Helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources", usage=usage())
+    parser = argparse.ArgumentParser(description=f"searchcode-cli: command line client for searchcode.com — by Richard Mwewa | https:about.me/rly0nheart", epilog="Search 75 billion lines of code from 40 million projects. Helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources", usage=usage())
     parser.add_argument("mode", 
                         help="""options:
                                       code_search - Queries the code index and returns at most 100 results.
@@ -110,10 +114,10 @@ def searchcode():
     api_endpoint = "https://searchcode.com/api"
     arg_parser = create_parser()
     args = arg_parser.parse_args()
-    check_updates()
     if args.debug:
-        logging.basicConfig(format="[%(levelname)s] %(message)s", level=logging.DEBUG)
+        logging.basicConfig(level='NOTSET', format='[%(levelname)s] %(message)s') 
     try:
+        check_updates()
         if args.mode == "code_search":
             code_search(args, api_endpoint=f"{api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100")
         elif args.mode == "code_result":
@@ -121,6 +125,6 @@ def searchcode():
         elif args.mode == "related_results":
             related_results(args, api_endpoint=f"{api_endpoint}/related_results/{args.code_id}")
     except KeyboardInterrupt:
-        print("[CTRLC] Process interrupted with Ctrl+C.")
+        xprint("[[red]CTRLC[/]] Process interrupted with Ctrl+C.")
     except Exception as e:
-        print(f"[ERROR] An error occurred: {e}")
+        xprint(f"[[red]ERROR[/]] An error occurred: {e}")

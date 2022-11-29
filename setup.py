@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as file:
 
 setuptools.setup(
     name="searchcode-cli",
-    version="1.1.0",
+    version="1.2.0",
     author="Richard Mwewa",
     author_email = "rly0nheart@duck.com",
     packages=["searchcode"],
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/rly0nheart/searchcode-cli",
     license="GNU General Public License v3 (GPLv3)",
-    install_requires=["requests"],
+    install_requires=["rich", "requests"],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

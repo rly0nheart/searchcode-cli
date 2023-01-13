@@ -124,7 +124,7 @@ def searchcode():
             code_results(args, api_endpoint=f"{api_endpoint}/result/{args.code_id}")
         elif args.mode == "related_results":
             related_results(args, api_endpoint=f"{api_endpoint}/related_results/{args.code_id}")
-    except KeyboardInterrupt:
-        xprint("[[yellow]CTRLC[/]] Process interrupted with [yellow]Ctrl+C[/].")
-    except Exception as e:
-        xprint(f"[[red]ERROR[/]] An error occurred: [red]{e}[/]")
+    except KeyboardInterrupt as ctrlc:
+        raise Execption(ctrlc) as ctrlc
+    except Exception as error:
+        raise Exception(error) as error

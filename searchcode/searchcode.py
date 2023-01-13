@@ -1,20 +1,19 @@
 import logging
 import argparse
 import requests
-import subprocess
 from rich.tree import Tree
 from rich import print as xprint
 from rich.logging import RichHandler
 
 
 # Getting code results; given a searchcode unique code ID
-def code_results(args, api_endpoint):
+def code_results(api_endpoint):
     response = requests.get(api_endpoint).json()
     xprint(response['code'])
 
 
 # Querying the searchcode index
-def code_search(args, api_endpoint):
+def code_search(api_endpoint):
     response = requests.get(api_endpoint).json()
     if args.raw:
         xprint(response['results'])
@@ -34,11 +33,11 @@ def code_search(args, api_endpoint):
             xprint(result_tree)
             for line, code in item['lines'].items():
                 xprint(f"{line}: {code}")
-            xprint(f"-" * 100)
+            xprint("-" * 100)
 
 
 # Getting related code results; given a searchcode unique code ID
-def related_results(args, api_endpoint):
+def related_results(api_endpoint):
     response = requests.get(api_endpoint).json()
     if args.raw:
         xprint(response)
@@ -59,7 +58,7 @@ def related_results(args, api_endpoint):
 
 
 def check_updates():
-    current_version_tag = "1.2.0"
+    current_version_tag = "1.3.0"
     """
     Checks if the release tag matches the current tag in the program
     If there's a match, ignore
@@ -83,7 +82,7 @@ def usage():
         # related_results
         searchcode related_results --code-id <code_id>
         
-    Docker container usage:
+    Docker image usage:
         # code_search 
         docker run -it rly0nheart/searchcode-cli code_search --query <query>
         
@@ -93,7 +92,7 @@ def usage():
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description=f"searchcode-cli: command line client for searchcode.com — by Richard Mwewa | https:about.me/rly0nheart", epilog="Search 75 billion lines of code from 40 million projects. Helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources", usage=usage())
+    parser = argparse.ArgumentParser(description="searchcode-cli: command line client for searchcode.com — by Richard Mwewa | https:about.me/rly0nheart", epilog="Search 75 billion lines of code from 40 million projects. Helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources", usage=usage())
     parser.add_argument("mode", 
                         help="""options:
                                       code_search - Queries the code index and returns at most 100 results.
@@ -112,19 +111,22 @@ def create_parser():
 
 def searchcode():
     api_endpoint = "https://searchcode.com/api"
-    arg_parser = create_parser()
-    args = arg_parser.parse_args()
+    args_map = [('code_search',  code_search, f"{api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
+                ('code_result', code_results, f"{api_endpoint}/result/{args.code_id}"),
+                ('related_results', related_results, f"{api_endpoint}/related_results/{args.code_id}")]
     if args.debug:
-        logging.basicConfig(level='NOTSET', format='[%(levelname)s] %(message)s') 
+        logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler()]) 
     try:
         check_updates()
-        if args.mode == "code_search":
-            code_search(args, api_endpoint=f"{api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100")
-        elif args.mode == "code_result":
-            code_results(args, api_endpoint=f"{api_endpoint}/result/{args.code_id}")
-        elif args.mode == "related_results":
-            related_results(args, api_endpoint=f"{api_endpoint}/related_results/{args.code_id}")
-    except KeyboardInterrupt as ctrlc:
-        raise Execption(ctrlc) as ctrlc
+        for mode, function, endpoint in args_map:
+            if args.mode == mode:
+                function(endpoint)
+    except KeyboardInterrupt:
+    	xprint("[yellow]CtrlC detected.[/]")
     except Exception as error:
-        raise Exception(error) as error
+        xprint(f"[red]{error}[/]")
+        
+        
+arg_parser = create_parser()
+args = arg_parser.parse_args()
+            

@@ -6,6 +6,15 @@
 
 Command line client for Searchcode.com
 
+# Features
+- [x] Queries the code index and returns at most 100 results.
+- [x] Returns the raw data from a code file given the code id which can be found as the id in a code search result.
+- [x] Returns an array of results given a searchcode unique code id which are considered to be duplicates.
+- [ ] Saves results to a JSON file (coming soon...)
+
+# TODO
+- [ ] Create GUI
+
 # Installation
 ## PyPI
 searchcode-cli can be installed from pypi using the command:
@@ -52,9 +61,50 @@ To get started with searchcode-cli, you can use the -h/--help flag, this will re
 ```
 searchcode --help
 ```
+
 ## Docker Container
 ```
 docker run -it rly0nheart/searchcode-cli --help
+```
+
+```
+usage: 
+    Basic usage:
+        # code_search 
+        searchcode code_search --query <query>
+
+        # code_result
+        searchcode code_result --code-id <code_id>
+
+        # related_results
+        searchcode related_results --code-id <code_id>
+        
+    Docker image usage:
+        # code_search 
+        docker run -it rly0nheart/searchcode-cli code_search --query <query>
+        
+        # code_search 
+        docker run -it rly0nheart/searchcode-cli relate_results --code-id <code_id>
+        
+
+searchcode-cli: command line client for searchcode.com — by Richard Mwewa | https:about.me/rly0nheart
+
+positional arguments:
+  {code_search,code_result,related_results}
+                        options: code_search - Queries the code index and returns at most 100 results. code_result - Returns the raw data from a code file given the code id which can be found as the id in a code
+                        search result. related_result - Returns an array of results given a searchcode unique code id which are considered to be duplicates.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -q QUERY, --query QUERY
+                        search query
+  -ci CODE_ID, --code-id CODE_ID
+                        code id (can be found as ID/id in a code_search result).
+  -p PAGE, --page PAGE  page number (default: 1)
+  -r, --raw             return results in raw json format
+  -d, --debug           enable debug mode (shows network logs)
+
+Search 75 billion lines of code from 40 million projects. Helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources
 ```
 
 # About SearchCode

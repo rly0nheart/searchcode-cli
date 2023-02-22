@@ -1,0 +1,31 @@
+[project]
+name = "searchcode-cli"
+version = "1.4.0.0"
+description = "Command line client for Searchcode.com"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["searchcode", "search-engine", "codesearch", "searchcode-server"]
+authors = [{name = "Richard Mwewa", email = "rly0nheart@duck.com"}]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
+  "Natural Language :: English",
+  ""
+]
+
+dependencies = [
+  "rich",
+  "requests"
+]
+
+[project.urls]
+homepage = "https://github.com/rly0nheart/searchcode-cli"
+documentation = "https://github.com/rly0nheart/searchcode-cli/blob/master/README.md"
+repository = "https://github.com/rly0nheart/searchcode-cli.git"
+
+[project.scripts]
+searchcode = "searchcode.searchcode:searchcode"

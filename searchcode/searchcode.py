@@ -133,17 +133,16 @@ def searchcode():
         if args.debug:
             raise Exception("User interruption detected.") from ctrlc
         else:
-            log.warning("[yellow]User interruption detected.[/]")
+            xprint("[yellow]User interruption detected.[/]")
 
     except Exception as err:
         if args.debug:
             raise Exception(f"An error occurred: {err}") from err
         else:
-            log.error(f"An error occurred: [red]{err}[/]")
+            xprint(f"An error occurred: [red]{err}[/]")
 
 
 arg_parser = create_parser()
 args = arg_parser.parse_args()
 if args.debug:
     logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler(markup=True)])
-    log = logging.getLogger("rich")

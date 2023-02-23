@@ -3,7 +3,9 @@ import argparse
 import requests
 from rich.tree import Tree
 from rich import print as xprint
+from rich.markdown import Markdown
 from rich.logging import RichHandler
+from searchcode.banner import ascii_banner
 
 
 # Getting code results; given a searchcode unique code ID
@@ -33,7 +35,7 @@ def code_search(api_endpoint):
             xprint(result_tree)
             for line, code in item['lines'].items():
                 xprint(f"{line}: {code}")
-            xprint("-" * 100)
+            print("-" * 100)
 
 
 # Getting related code results; given a searchcode unique code ID
@@ -58,16 +60,18 @@ def related_results(api_endpoint):
 
 
 def check_updates():
-    current_version_tag = "1.3.0"
     """
     Checks if the release tag matches the current tag in the program
     If there's a match, ignore
     """
     response = requests.get("https://api.github.com/repos/rly0nheart/searchcode-cli/releases/latest").json()
-    if response['tag_name'] == current_version_tag:
+    if response['tag_name'] == ascii_banner()[0]:
         pass
     else:
-        xprint(f"[[green]UPDATE[/]] A new release of searchcode-cli is available ({response['tag_name']}). Run 'pip3 install --upgrade searchcode-cli' to install the updates.")
+        xprint(f"[[green]UPDATE[/]] A new release of searchcode-cli is available ({response['tag_name']}). Run 'pip3 install --upgrade searchcode-cli' to install the updates.\n")
+        raw_release_notes = response['body']
+        markdown_release_notes = Markdown(raw_release_notes)
+        xprint(markdown_release_notes)
             
             
 def usage():
@@ -110,21 +114,28 @@ def create_parser():
 
 
 def searchcode():
-    api_endpoint = "https://searchcode.com/api"
-    args_map = [('code_search',  code_search, f"{api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
-                ('code_result', code_results, f"{api_endpoint}/result/{args.code_id}"),
-                ('related_results', related_results, f"{api_endpoint}/related_results/{args.code_id}")]
+    searchcode_api_endpoint = "https://searchcode.com/api"
+    args_map = [('code_search',  code_search, f"{searchcode_api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
+                ('code_result', code_results, f"{searchcode_api_endpoint}/result/{args.code_id}"),
+                ('related_results', related_results, f"{searchcode_api_endpoint}/related_results/{args.code_id}")]
     if args.debug:
-        logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler()]) 
+        logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler()])
     try:
         check_updates()
         for mode, function, endpoint in args_map:
             if args.mode == mode:
                 function(endpoint)
-    except KeyboardInterrupt:
-    	xprint("[yellow]CtrlC detected.[/]")
-    except Exception as error:
-        xprint(f"[red]{error}[/]")
+    except KeyboardInterrupt as ctrlc:
+        if args.debug:
+            raise Exception("User interruption detected.") from ctrlc
+        else:
+            xprint("[yellow]User interruption detected.[/]")
+        
+    except Exception as err:
+        if args.debug:
+            raise Exception(f"An error occurred: {err}") from err
+        else:
+            xprint(f"An error occurred: [red]{err}[/]")
         
         
 arg_parser = create_parser()

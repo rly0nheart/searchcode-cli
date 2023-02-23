@@ -5,7 +5,7 @@ def ascii_banner():
 .-----.-----.---.-.----.----.|  |--.----.-----.--|  |.-----._____.----.|  |__|
 |__ --|  -__|  _  |   _|  __||     |  __|  _  |  _  ||  -__|_____|  __||  |  |
 |_____|_____|___._|__| |____||__|__|____|_____|_____||_____|     |____||__|__|
-                                                                       v{version_tag}
-                                       — Command Line Client for searchcode.com
+                                                                      v{version_tag}
+                                       — Command Line Client for https://searchcode.com
                                                                   """
     return version_tag, ascii_text

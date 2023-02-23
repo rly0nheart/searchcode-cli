@@ -118,13 +118,10 @@ def searchcode():
     argument_map = [('code_search',  code_search, f"{searchcode_api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
                 ('code_result', code_results, f"{searchcode_api_endpoint}/result/{args.code_id}"),
                 ('related_results', related_results, f"{searchcode_api_endpoint}/related_results/{args.code_id}")]
-    if args.debug:
-        logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler(markup=True)])
-        log = logging.getLogger("rich")
     try:
         xprint(ascii_banner()[1])
         check_updates()
-        # Iterate over the each tuple's elements from the argument_map
+        # Iterate over each tuple's elements from the argument_map
         for mode, function, endpoint in argument_map:
             if args.mode == mode:
                 function(endpoint)
@@ -143,4 +140,7 @@ def searchcode():
         
 arg_parser = create_parser()
 args = arg_parser.parse_args()
-            
+if args.debug:
+    logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler(markup=True)])
+    log = logging.getLogger("rich")
+    

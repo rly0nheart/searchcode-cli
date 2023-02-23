@@ -121,7 +121,7 @@ def searchcode():
     if args.debug:
         logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler()])
     try:
-        xprint(ascii_banner()[0])
+        xprint(ascii_banner()[1])
         check_updates()
         # Iterate over the each tuple's elements from the argument_map
         for mode, function, endpoint in argument_map:

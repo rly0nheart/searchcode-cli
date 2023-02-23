@@ -120,7 +120,7 @@ def searchcode():
                 ('related_results', related_results, f"{searchcode_api_endpoint}/related_results/{args.code_id}")]
     if args.debug:
         logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler(markup=True)])
-        log = logging.Logger("rich")
+        log = logging.getLogger("rich")
     try:
         xprint(ascii_banner()[1])
         check_updates()

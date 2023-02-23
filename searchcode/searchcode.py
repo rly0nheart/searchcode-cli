@@ -120,6 +120,7 @@ def searchcode():
                 ('related_results', related_results, f"{searchcode_api_endpoint}/related_results/{args.code_id}")]
     if args.debug:
         logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler(markup=True)])
+        log = logging.Logger("rich")
     try:
         xprint(ascii_banner()[1])
         check_updates()
@@ -131,13 +132,13 @@ def searchcode():
         if args.debug:
             raise Exception("User interruption detected.") from ctrlc
         else:
-            logging.warning("[yellow]User interruption detected.[/]")
+            log.warning("[yellow]User interruption detected.[/]")
         
     except Exception as err:
         if args.debug:
             raise Exception(f"An error occurred: {err}") from err
         else:
-            logging.error(f"An error occurred: [red]{err}[/]")
+            log.error(f"An error occurred: [red]{err}[/]")
         
         
 arg_parser = create_parser()

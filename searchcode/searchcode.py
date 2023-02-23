@@ -115,14 +115,16 @@ def create_parser():
 
 def searchcode():
     searchcode_api_endpoint = "https://searchcode.com/api"
-    args_map = [('code_search',  code_search, f"{searchcode_api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
+    argument_map = [('code_search',  code_search, f"{searchcode_api_endpoint}/codesearch_I/?q={args.query}&p={args.page}&per_page=100"),
                 ('code_result', code_results, f"{searchcode_api_endpoint}/result/{args.code_id}"),
                 ('related_results', related_results, f"{searchcode_api_endpoint}/related_results/{args.code_id}")]
     if args.debug:
         logging.basicConfig(level='NOTSET', format='%(message)s', handlers=[RichHandler()])
     try:
+        xprint(ascii_banner()[0])
         check_updates()
-        for mode, function, endpoint in args_map:
+        # Iterate over the each tuple's elements from the argument_map
+        for mode, function, endpoint in argument_map:
             if args.mode == mode:
                 function(endpoint)
     except KeyboardInterrupt as ctrlc:

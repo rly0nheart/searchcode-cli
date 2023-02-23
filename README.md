@@ -4,7 +4,7 @@
 
 [![Upload Python Package](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml) [![CodeQL](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml)
 
-Command line client for Searchcode.com
+Command line client for [Searchcode](https://searchcode.com)
 
 # Features
 - [x] Queries the code index and returns at most 100 results.

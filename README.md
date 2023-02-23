@@ -13,7 +13,7 @@ Command line client for [Searchcode](https://searchcode.com)
 - [ ] Saves results to a JSON file (coming soon...)
 
 # TODO
-- [ ] Create GUI
+- [ ] Create GUI (in progress...)
 
 # Installation
 ## PyPI

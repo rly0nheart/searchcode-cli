@@ -37,8 +37,8 @@ def __join_parameters(names, sources) -> str:
     return parameters
 
 
-def code_search(query: str, page_number: int = 0, per_page: int = 10, max_retries: int = 3, backoff_time: int = 10,
-                code_sources: list = None, code_languages: list = None) -> list:
+def code_search(query: str, page_number: int = 0, per_page: int = 10, code_sources: list = None,
+                code_languages: list = None) -> list:
     """
     Queries the code index and returns at most 10 results.
     If the results list is empty, then this indicates that you have reached the end of the available results.
@@ -53,10 +53,6 @@ def code_search(query: str, page_number: int = 0, per_page: int = 10, max_retrie
         Result page starting at 0 through to 49.
     per_page (int):
         Number of results wanted per page max 100.
-    max_retries (int):
-        The maximum number of retries in case of a failed request.
-    backoff_time (int):
-        The number of seconds to wait before retrying a failed request.
     code_sources : list
         A list of source names used as filters.
     code_languages : list
@@ -87,11 +83,10 @@ def code_search(query: str, page_number: int = 0, per_page: int = 10, max_retrie
     sources = __join_parameters(code_sources, __code_sources())
     languages = __join_parameters(code_languages, __code_languages())
 
-    return __api_handler(code_search_endpoint.format(query, page_number, per_page, sources, languages),
-                         max_retries, backoff_time)['results']
+    return __api_handler(code_search_endpoint.format(query, page_number, per_page, sources, languages))['results']
 
 
-def code_result(code_id: int = None, max_retries: int = 3, backoff_time: int = 10) -> str:
+def code_result(code_id: int) -> str:
     """
     Retrieves the raw data for a code file based on the given code ID.
 
@@ -99,10 +94,6 @@ def code_result(code_id: int = None, max_retries: int = 3, backoff_time: int = 1
     -----------
     code_id (int):
         The ID of the code file to retrieve.
-    max_retries (int):, optional
-        The maximum number of times to retry the API call in case of a failure. Defaults to 3.
-    backoff_time (int):, optional
-        The number of seconds to wait before retrying the API call in case of a failure. Defaults to 5.
 
     Returns:
     --------
@@ -115,10 +106,10 @@ def code_result(code_id: int = None, max_retries: int = 3, backoff_time: int = 1
     code file. If the request is successful, the raw data is returned.
     """
     code_result_endpoint = __api_endpoints()[1]
-    return __api_handler(code_result_endpoint.format(code_id), max_retries, backoff_time)['code']
+    return __api_handler(code_result_endpoint.format(code_id))['code']
 
 
-def related_results(code_id: int = None, max_retries: int = 3, backoff_time: int = 10) -> list:
+def related_results(code_id: int) -> list:
     """
     Queries the related code results endpoint of the Searchcode API and returns an array of results
     that are considered to be duplicates of the code file identified by the given code_id.
@@ -127,10 +118,6 @@ def related_results(code_id: int = None, max_retries: int = 3, backoff_time: int
     -----------
     code_id (int):
         The unique code id of the code file for which to retrieve related results.
-    max_retries (int):
-        The maximum number of times to retry the API call in case of failures. Default is 3.
-    backoff_time (int):
-        The time in seconds to wait between retries in case of failures. Default is 5.
 
     Returns:
     --------
@@ -138,4 +125,4 @@ def related_results(code_id: int = None, max_retries: int = 3, backoff_time: int
         about a code file, such as its filename, repository, and lines of code.
     """
     related_results_endpoint = __api_endpoints()[2]
-    return __api_handler(related_results_endpoint.format(code_id), max_retries, backoff_time)
+    return __api_handler(related_results_endpoint.format(code_id))

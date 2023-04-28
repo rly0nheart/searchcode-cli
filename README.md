@@ -1,4 +1,4 @@
-![searchcode_logo](https://user-images.githubusercontent.com/74001397/234731192-80a105be-7102-49b0-89fc-d05dac2b2bd9.png)
+![searchcode-cli_banner](https://user-images.githubusercontent.com/74001397/203441377-ad53a2ab-16d6-42b3-bbec-542c9ed43534.png)
 
 
 A Python wrapper around the [Searchcode API](https://searchcode.com/api/)

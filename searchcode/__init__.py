@@ -43,7 +43,7 @@ def code_search(query: str, page_number: int = 0, per_page: int = 10, code_sourc
     Queries the code index and returns at most 10 results.
     If the results list is empty, then this indicates that you have reached the end of the available results.
     To fetch all results for a given query, keep incrementing 'page_number'
-    until you get a page with an empty results list.
+    until you get a response with an empty results list.
 
     Parameters:
     ----------

@@ -4,6 +4,10 @@
 A Python wrapper around the [SearchCode API](https://searchcode.com/api/)
 
 [![Upload Python Package](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml) [![CodeQL](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/rly0nheart/searchcode-cli?logo=github)
+![PyPI](https://img.shields.io/pypi/v/searchcode-cli?label=Latest%20Release&logo=pypi)
+![PyPI - Status](https://img.shields.io/pypi/status/searchcode-cli?label=Status&logo=pypi)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/searchcode-cli?label=Downloads&logo=pypi)
 
 # Documentation
 [Refer to the Wiki](https://github.com/rly0nheart/searchcode-cli/wiki) for installation instructions, code examples, in addition to all other documentation.

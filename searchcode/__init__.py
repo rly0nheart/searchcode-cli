@@ -1,7 +1,7 @@
 # Search code api endpoints
 from typing import Union, Literal
 from searchcode.connection import __api_handler
-from searchcode.miscellaneous import __code_sources, __code_languages, __api_endpoints  # searchcode API endpoints
+from searchcode.utils import __code_sources, __code_languages, __api_endpoints  # searchcode API endpoints
 
 
 def __join_parameters(names, sources) -> str:

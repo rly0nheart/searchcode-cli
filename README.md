@@ -7,7 +7,7 @@ A Python wrapper around the [SearchCode API](https://searchcode.com/api/)
 ![GitHub top language](https://img.shields.io/github/languages/top/rly0nheart/searchcode-cli?logo=github)
 ![PyPI](https://img.shields.io/pypi/v/searchcode-cli?label=Latest%20Release&logo=pypi)
 ![PyPI - Status](https://img.shields.io/pypi/status/searchcode-cli?label=Status&logo=pypi)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/searchcode?label=Downloads&logo=pypi)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/searchcode-cli?label=Downloads&logo=pypi)
 
 # Documentation
 [Refer to the Wiki](https://github.com/rly0nheart/searchcode-cli/wiki) for installation instructions, code examples, in addition to all other documentation.

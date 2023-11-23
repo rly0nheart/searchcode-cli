@@ -1,4 +1,4 @@
-def __api_endpoints():
+def __api_endpoints() -> tuple:
     """
     Returns a tuple of three strings containing API endpoints for SearchCode.com.
     code_search_endpoint: API endpoint for searching for code snippets on SearchCode.
@@ -14,6 +14,10 @@ def __api_endpoints():
 
     related_results_endpoint: API endpoint for retrieving related code search results.
     Takes in the ID of the code search result as a parameter.
+
+    Returns:
+    --------
+    A tuple containing the code_search, code_result and related_results API endpoints.
     """
     api = "https://searchcode.com/api/"
     code_search_endpoint = api + "codesearch_I/?q={}&p={}&per_page={}{}{}"
@@ -23,7 +27,7 @@ def __api_endpoints():
     return code_search_endpoint, code_result_endpoint, related_results_endpoint
 
 
-def __code_sources():
+def __code_sources() -> list:
     """
     Returns a list of tuples containing code sources and their corresponding source parameters.
 
@@ -53,7 +57,7 @@ def __code_sources():
             ("Sr.ht", "&src=16")]
 
 
-def __code_languages():
+def __code_languages() -> list:
     """
     Returns a list of tuples containing code languages and their corresponding language parameters.
 

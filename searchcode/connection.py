@@ -38,6 +38,5 @@ def __api_handler(endpoint: str) -> Union[dict, list, str]:
                 api_data = response.read().decode("utf-8")
                 return json.loads(api_data)
     except (urllib.error.HTTPError, urllib.error.URLError) as error:
-        # Catch any network errors or timeouts
-        raise Exception(error)
-
+        # Catch and yield any network errors or timeouts
+        yield error
